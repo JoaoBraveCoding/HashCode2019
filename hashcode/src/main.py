@@ -8,9 +8,8 @@ photosH = []
 
 def find_ver_pair(photo, ver):
     #find the best vertical photo to match with photo
-
     
-    return 
+    return ((photo + 1)%len(ver) )
 
 def make_slides(hor, ver):
     slides = []
