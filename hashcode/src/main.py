@@ -1,27 +1,27 @@
 import random
 
-def make_ss(photos):
-    slideshow = []
-    current_photo = 0
+def make_ss(slides):
+     slideshow = []
+     current_slide = 0
 
-    i = random.randint(0, len(photos))
+     i = random.randint(0, len(slides))
 
-    slideshow.append(photos[i])
-    del photos[i]
+     slideshow.append(slides[i])
+     del slides[i]
 
-    #pick next photo
-    while len(photos) > 0:
-        rand1 = random.randint(0, len(photos))
-        rand2 = random.randint(0, len(photos))
+     #pick next slide
+     while (len(slides) > 0):
+         rand1 = random.randint(0, len(slides))
+         rand2 = random.randint(0, len(slides))
 
-        if comparePhotos(slideshow[current_photo], photos[rand1]) > comparePhotos(slideshow[current_photo], photos[rand2]):
-            slideshow.append(photos[rand1])
-            del photos[rand1]
-            current_photo = rand1
-        else:
-            slideshow.append(photos[rand2])
-            del photos[rand2]
-            current_photo = rand2
+         if(compareSlides(slideshow[current_slide], slides[rand1]) > compareSlides(slideshow[current_slide], slides[rand2])):
+             slideshow.append(slides[rand1])
+             del slides[rand1]
+             current_slide = rand1
+         else:
+             slideshow.append(slides[rand2])
+             del slides[rand2]
+             current_slide = rand2
 
 def comparePhotos(t1,t2): #tags for p1 and p2
     common = 0
