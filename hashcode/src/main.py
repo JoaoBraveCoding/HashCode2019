@@ -29,6 +29,9 @@ def make_ss(slides):
             del slides[rand2]
             current_slide = rand2
 
+    # TODO check if returns whats expected
+    return
+
 
 def compare_slides(s1, s2):  # tags for p1 and p2
     t1 = get_all_tags(s1)
@@ -107,7 +110,7 @@ def main():
     print(photosH)
 
     # Algorithm
-    slideshow = make_ss()
+    slideshow = make_ss(slides)
 
     # Output
     ss_out(file_name, slideshow)
