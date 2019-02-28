@@ -16,11 +16,11 @@ def make_ss(slides):
     del slides[i]
 
     # pick next slide
-    while (len(slides) > 0):
+    while len(slides) > 0:
         rand1 = random.randint(0, len(slides))
         rand2 = random.randint(0, len(slides))
 
-        if (compare_slides(slideshow[current_slide], slides[rand1]) > compare_slides(slideshow[current_slide], slides[rand2])):
+        if compare_slides(slideshow[current_slide], slides[rand1]) > compare_slides(slideshow[current_slide], slides[rand2]):
             slideshow.append(slides[rand1])
             del slides[rand1]
             current_slide = rand1
@@ -56,7 +56,7 @@ def compare_slides(s1, s2):  # tags for p1 and p2
 
 def aux_compare(el, t2):
     for el2 in t2:
-        if (el == el2):
+        if el == el2:
             return 1
     return 0
 
@@ -76,7 +76,7 @@ def add_photo(line, id):
     photo = {}
     array = line.split(' ')
     photo['orientation'] = array[0]
-    photo['tags'] = array[2:]
+    photo['tags'] = set(array[2:])
     photo['id'] = id
     if photo['orientation'] == 'V':
         photos.append(photo)
