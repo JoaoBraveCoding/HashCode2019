@@ -34,8 +34,8 @@ def make_ss(slides):
 
 
 def compare_slides(s1, s2):  # tags for p1 and p2
-    t1 = get_all_tags(s1)
-    t2 = get_all_tags(s2)
+    t1 = s1["tags"]
+    t2 = s2["tags"]
     common = 0
     t1NotInT2 = 0
     t2NotInT1 = 0
@@ -59,13 +59,6 @@ def aux_compare(el, t2):
         if (el == el2):
             return 1
     return 0
-
-
-def get_all_tags(s):
-    tags = ""
-    for tgs in s.tags:
-        tags += tgs
-    return tags
 
 
 def ss_out(file_name, slideshow):
