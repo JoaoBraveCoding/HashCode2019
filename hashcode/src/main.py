@@ -20,11 +20,13 @@ def make_slides(hor, ver):
 
     # make slides with vertical photos
     while len(ver) >= 2:
-        ver1 = random.randint(0, len(ver))
+        ver1 = random.randint(0, len(ver)-1)
         ver2 = find_ver_pair(ver1, ver)
-        slides.append([[ver[ver1]['id'], ver[ver2]['id']], ver[ver1]['tags'].update(ver[ver2]['tags'])])
+        ver[ver1]['tags'].update(ver[ver2]['tags'])
+        slides.append([[ver[ver1]['id'], ver[ver2]['id']], ver[ver1]['tags']])
         del ver[ver1]
-        del ver[ver2]
+        del ver[ver2%len(ver)]
+
     return slides
 
 
@@ -32,32 +34,31 @@ def make_ss(slides):
     slideshow = []
     current_slide = 0
 
-    i = random.randint(0, len(slides))
+    i = random.randint(0, len(slides)-1)
 
-    slideshow.append(slides[i][0])
+    slideshow.append(slides[i])
     del slides[i]
 
     # pick next slide
     while len(slides) > 0:
-        rand1 = random.randint(0, len(slides))
-        rand2 = random.randint(0, len(slides))
+        rand1 = random.randint(0, len(slides)-1)
+        rand2 = random.randint(0, len(slides)-1)
 
         if compare_slides(slideshow[current_slide], slides[rand1]) > compare_slides(slideshow[current_slide], slides[rand2]):
-            slideshow.append(slides[rand1][0])
+            slideshow.append(slides[rand1])
             del slides[rand1]
-            current_slide = rand1
         else:
-            slideshow.append(slides[rand2][0])
+            slideshow.append(slides[rand2])
             del slides[rand2]
-            current_slide = rand2
+        current_slide += 1
 
     # TODO check if returns whats expected
     return slideshow
 
 
 def compare_slides(s1, s2):  # tags for p1 and p2
-    t1 = s1["tags"]
-    t2 = s2["tags"]
+    t1 = s1[1]
+    t2 = s2[1]
     common = 0
     t1NotInT2 = 0
     t2NotInT1 = 0
@@ -75,6 +76,8 @@ def compare_slides(s1, s2):  # tags for p1 and p2
         else:
             t2NotInT1 += 1
 
+    return min(common, t1NotInT2, t2NotInT1)
+
 
 def aux_compare(el, t2):
     for el2 in t2:
@@ -89,11 +92,11 @@ def ss_out(file_name, slideshow):
     for i in slideshow:
         # TODO update this
         tempS = ""
-        for j in i:
+        for j in i[0]:
             tempS += str(j) + " "
         out += tempS + "\n"
-    f = open(file_name, 'r')
-    f.write(out)
+    f = open(file_name+".out", 'w')
+    f.writelines(out)
     f.close()
 
 
@@ -101,8 +104,11 @@ def add_photo(line, id):
     photo = {}
     array = line.split(' ')
     photo['orientation'] = array[0]
-    photo['tags'] = set(array[2:])
+    photo['tags'] = array[2:]
     photo['id'] = id
+    pong = photo['tags'][-1][:-1]
+    photo['tags'][-1] = pong
+    photo['tags'] = set(photo['tags'])
     if photo['orientation'] == 'V':
         photos.append(photo)
         photosV.append(photo)
@@ -120,12 +126,7 @@ def main():
     for line in f:
         add_photo(line, i)
         i += 1
-    print('Photos')
-    print(photos)
-    print('Vertical photos')
-    print(photosV)
-    print('Horizontal photos')
-    print(photosH)
+  #  print (photos)
 
     # Algorithm
     slides = make_slides(photosH, photosV)
