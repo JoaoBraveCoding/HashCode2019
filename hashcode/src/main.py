@@ -13,6 +13,7 @@ def find_ver_pair(photo, ver):
 
 def make_slides(hor, ver):
     slides = []
+    used_ids = []
 
     # all horizontal photos make 1 slide
     for i in range(len(hor)):
@@ -22,6 +23,14 @@ def make_slides(hor, ver):
     while len(ver) >= 2:
         ver1 = random.randint(0, len(ver)-1)
         ver2 = find_ver_pair(ver1, ver)
+        if ver[ver1]['id'] not in used_ids:
+            used_ids.append(ver[ver1]['id'])
+        else:
+            raise ValueError("Duplicated photo")
+        if ver[ver2]['id'] not in used_ids:
+            used_ids.append(ver[ver2]['id'])
+        else:
+            raise ValueError("Duplicated photo")
         ver[ver1]['tags'].update(ver[ver2]['tags'])
         slides.append([[ver[ver1]['id'], ver[ver2]['id']], ver[ver1]['tags']])
         del ver[ver1]
@@ -43,6 +52,8 @@ def make_ss(slides):
     while len(slides) > 0:
         rand1 = random.randint(0, len(slides)-1)
         rand2 = random.randint(0, len(slides)-1)
+#        while rand1 == rand2:
+#            rand2 = random.randint(0, len(slides) - 1)
 
         if compare_slides(slideshow[current_slide], slides[rand1]) > compare_slides(slideshow[current_slide], slides[rand2]):
             slideshow.append(slides[rand1])
@@ -89,13 +100,14 @@ def aux_compare(el, t2):
 def ss_out(file_name, slideshow):
     out = ""
     out += str(len(slideshow)) + "\n"
+    file_name_splited = file_name.split("/")
     for i in slideshow:
         # TODO update this
         tempS = ""
         for j in i[0]:
             tempS += str(j) + " "
         out += tempS + "\n"
-    f = open(file_name+".out", 'w')
+    f = open("hashcode/out/" + file_name_splited[2], 'w')
     f.writelines(out)
     f.close()
 
