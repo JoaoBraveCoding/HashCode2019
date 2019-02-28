@@ -1,5 +1,26 @@
 import random
 
+def find_ver_pair(photo, ver):
+    #find the best vertical photo to match with photo
+
+    
+    return 
+def make_slides(hor, ver):
+    slides = []
+
+    #all horizontal photos make 1 slide
+    for i in range(len(hor)):
+        slides.append([ hor[i]['id'], hor[i]['tags'])
+
+    #make slides with vertical photos
+    j = 0
+    while len(ver) >= 2:
+        ver1 = random.randint(0,len(ver))
+        ver2 = find_ver_pair(ver1, ver)
+        slides.append([ ver[ver1]['id'], ver[ver2]['id'], ver[ver1]['tags'].update(ver[ver2]['tags']) ])
+        del ver[ver1]
+        del ver[ver2]
+
 def make_ss(slides):
      slideshow = []
      current_slide = 0
