@@ -11,6 +11,7 @@ def find_ver_pair(photo, ver):
 
     
     return 
+
 def make_slides(hor, ver):
     slides = []
 
