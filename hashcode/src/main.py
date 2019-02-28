@@ -8,16 +8,8 @@ photosH = []
 
 def find_ver_pair(photo, ver):
     #find the best vertical photo to match with photo
-    best = 0
-    best_i = 0
-    for i in range(0, 20):
-        n = random.randint(0, len(ver) - 1)
-        atempt = len(ver[photo]['tags'].update(ver[n]['tags']))
-        if( attempt > best  ):
-            best_i = n
-            best = attempt
+    return (photo + 1) % len(ver)
 
-    return best_i
 
 def make_slides(hor, ver):
     slides = []
@@ -31,18 +23,13 @@ def make_slides(hor, ver):
     while len(ver) >= 2:
         ver1 = random.randint(0, len(ver)-1)
         ver2 = find_ver_pair(ver1, ver)
-        if ver[ver1]['id'] not in used_ids:
-            used_ids.append(ver[ver1]['id'])
-        else:
-            raise ValueError("Duplicated photo")
-        if ver[ver2]['id'] not in used_ids:
-            used_ids.append(ver[ver2]['id'])
-        else:
-            raise ValueError("Duplicated photo")
         ver[ver1]['tags'].update(ver[ver2]['tags'])
         slides.append([[ver[ver1]['id'], ver[ver2]['id']], ver[ver1]['tags']])
         del ver[ver1]
-        del ver[ver2%len(ver)]
+        if ver1 < ver2:
+            del ver[ver2-1]
+        else:
+            del ver[ver2]
 
     return slides
 
