@@ -7,9 +7,17 @@ photosH = []
 
 
 def find_ver_pair(photo, ver):
-    # find the best vertical photo to match with photo
-    return (photo + 1) % len(ver)
+    #find the best vertical photo to match with photo
+    best = 0
+    best_i = 0
+    for i in range(0, 20):
+        n = random.randint(0, len(ver) - 1)
+        atempt = len(ver[photo]['tags'].update(ver[n]['tags']))
+        if( attempt > best  ):
+            best_i = n
+            best = attempt
 
+    return best_i
 
 def make_slides(hor, ver):
     slides = []
